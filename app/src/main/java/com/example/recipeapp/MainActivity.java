@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
                 //Execute network request
                 Response<Meals> mealResponse = mealsCall.execute();
                 List<Meals.Meal> meals = mealResponse.body().getMeals();
+                setMeal(meals);
                 return meals;
             } catch (IOException e) {
                 Log.d(TAG, "onFailue: FAILURE");
