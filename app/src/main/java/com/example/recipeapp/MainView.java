@@ -9,7 +9,7 @@ public interface MainView {
 
     void showLoading();
     void hideLoading();
-    void setMeal(List<Meals.Meal> meal);
-    void setCategory(List<Categories.Category> category);
+    void setMeal(List<Meals> meal);
+    void setCategory(List<Categories> category);
 
 }

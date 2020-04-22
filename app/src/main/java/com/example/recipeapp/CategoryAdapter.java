@@ -22,11 +22,11 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder> {
 
-    private List<Categories.Category> mCategories;
+    private List<Categories> mCategories;
     private Context context;
     private static ClickListener clickListener;
 
-    public CategoryAdapter(List<Categories.Category> categories, Context context) {
+    public CategoryAdapter(List<Categories> categories, Context context) {
         this.mCategories = categories;
         this.context = context;
     }
@@ -80,7 +80,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         void onClick(View view, int position);
     }
 
-    public void setCategories(List<Categories.Category> categories){
+    public void setCategories(List<Categories> categories){
         mCategories.clear();
         mCategories.addAll(categories);
         notifyDataSetChanged();

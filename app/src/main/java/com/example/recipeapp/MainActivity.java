@@ -8,7 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import com.example.recipeapp.Entities.Categories;
+import com.example.recipeapp.Entities.CategoryLoreResponse;
+import com.example.recipeapp.Entities.MealLoreResponse;
 import com.example.recipeapp.Entities.Meals;
 import java.io.IOException;
 import java.util.List;
@@ -23,17 +26,22 @@ public class MainActivity extends AppCompatActivity implements MainView{
     private VphAdapter headerAdapter;
     private CategoryAdapter categoryAdapter;
 
-    public MainActivity(MainView view) {
-        this.view = view;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        view.showLoading();
         new GetMealTask().execute();
         new GetCategoryTask().execute();
+    }
+
+    public MainActivity(){
+    }
+
+    public MainActivity(MainView view) {
+        super();
+        this.view = view;
     }
 
     @Override
@@ -49,14 +57,14 @@ public class MainActivity extends AppCompatActivity implements MainView{
     }
 
     @Override
-    public void setMeal(List<Meals.Meal> meal) {
+    public void setMeal(List<Meals> meal) {
         headerAdapter = new VphAdapter(meal, this);
         ViewPager viewPagerMeal = findViewById(R.id.vpHeader);
         viewPagerMeal.setAdapter(headerAdapter);
     }
 
     @Override
-    public void setCategory(List<Categories.Category> category) {
+    public void setCategory(List<Categories> category) {
         categoryAdapter = new CategoryAdapter(category, this);
         RecyclerView recyclerViewCategory = findViewById(R.id.rvCategory);
         recyclerViewCategory.setAdapter(categoryAdapter);
@@ -65,63 +73,58 @@ public class MainActivity extends AppCompatActivity implements MainView{
         recyclerViewCategory.setNestedScrollingEnabled(true);
     }
 
-    private class GetMealTask extends AsyncTask<Void, Void, List<Meals.Meal>> {
+    private class GetMealTask extends AsyncTask<Void, Void, List<Meals>> {
         @Override
-        protected List<Meals.Meal> doInBackground(Void... voids) {
+        protected List<Meals> doInBackground(Void... voids) {
             try {
                 Log.d(TAG, "onSuccess: SUCCESS");
-                view.hideLoading();
                 //Create Retrofit instance and parse the retrieved Json using Gson deserialiser
-                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1").addConverterFactory(GsonConverterFactory.create()).build();
+                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(GsonConverterFactory.create()).build();
                 //Get Service and call object for the request
                 RecipeService service = retrofit.create(RecipeService.class);
-                Call<Meals> mealsCall = service.getMeals();
+                Call<MealLoreResponse> mealsCall = service.getMeals();
 
                 //Execute network request
-                Response<Meals> mealResponse = mealsCall.execute();
-                List<Meals.Meal> meals = mealResponse.body().getMeals();
+                Response<MealLoreResponse> mealResponse = mealsCall.execute();
+                List<Meals> meals = mealResponse.body().getMeals();
                 setMeal(meals);
                 return meals;
             } catch (IOException e) {
                 Log.d(TAG, "onFailue: FAILURE");
-                view.hideLoading();
                 e.printStackTrace();
                 return null;
             }
         }
 
         @Override
-        protected void onPostExecute(List<Meals.Meal> meals) { headerAdapter.setMeals(meals); }
-
+        protected void onPostExecute(List<Meals> meals) { headerAdapter.setMeals(meals); }
     }
 
-    private class GetCategoryTask extends AsyncTask<Void, Void, List<Categories.Category>> {
+    private class GetCategoryTask extends AsyncTask<Void, Void, List<Categories>> {
         @Override
-        protected List<Categories.Category> doInBackground(Void... voids) {
+        protected List<Categories> doInBackground(Void... voids) {
             try {
                 Log.d(TAG, "onSuccess: SUCCESS");
-                view.hideLoading();
                 //Create Retrofit instance and parse the retrieved Json using Gson deserialiser
-                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1").addConverterFactory(GsonConverterFactory.create()).build();
+                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(GsonConverterFactory.create()).build();
                 //Get Service and call object for the request
                 RecipeService service = retrofit.create(RecipeService.class);
-                Call<Categories> categoriesCall = service.getCategories();
+                Call<CategoryLoreResponse> categoriesCall = service.getCategories();
 
                 //Execute network request
-                Response<Categories> categoriesResponse = categoriesCall.execute();
-                List<Categories.Category> categories = categoriesResponse.body().getCategories();
+                Response<CategoryLoreResponse> categoriesResponse = categoriesCall.execute();
+                List<Categories> categories = categoriesResponse.body().getCategories();
                 setCategory(categories);
                 return categories;
             } catch (IOException e) {
                 Log.d(TAG, "onFailue: FAILURE");
-                view.hideLoading();
                 e.printStackTrace();
                 return null;
             }
         }
 
         @Override
-        protected void onPostExecute(List<Categories.Category> categories) { categoryAdapter.setCategories(categories); }
+        protected void onPostExecute(List<Categories> categories) { categoryAdapter.setCategories(categories); }
 
     }
 }

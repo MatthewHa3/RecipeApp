@@ -13,11 +13,11 @@ import java.util.List;
 
 public class VphAdapter extends PagerAdapter {
 
-    private List<Meals.Meal> mMeals;
+    private List<Meals> mMeals;
     private Context context;
     private static ClickListener clickListener;
 
-    public VphAdapter(List<Meals.Meal> meals, Context context) {
+    public VphAdapter(List<Meals> meals, Context context) {
         this.mMeals = meals;
         this.context = context;
     }
@@ -68,7 +68,7 @@ public class VphAdapter extends PagerAdapter {
         void onClick(View v, int position);
     }
 
-    public void setMeals(List<Meals.Meal> meals){
+    public void setMeals(List<Meals> meals){
         mMeals.clear();
         mMeals.addAll(meals);
         notifyDataSetChanged();

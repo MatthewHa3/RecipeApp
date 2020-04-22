@@ -3,23 +3,9 @@ package com.example.recipeapp.Entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
-public class Categories {
 
-    @SerializedName("categories")
-    @Expose
-    private List<Category> categories;
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public static class Category {
+    public class Categories {
 
         @SerializedName("idCategory")
         @Expose
@@ -33,6 +19,17 @@ public class Categories {
         @SerializedName("strCategoryDescription")
         @Expose
         private String strCategoryDescription;
+
+        public Categories(){
+        }
+
+        public Categories(String idCategory, String strCategory, String strCategoryThumb, String strCategoryDescription){
+            super();
+            this.idCategory = idCategory;
+            this.strCategory = strCategory;
+            this.strCategoryThumb = strCategoryThumb;
+            this.strCategoryDescription = strCategoryDescription;
+        }
 
         public String getIdCategory() {
             return idCategory;
@@ -68,4 +65,3 @@ public class Categories {
 
     }
 
-}
