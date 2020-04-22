@@ -48,13 +48,11 @@ public class VphAdapter extends PagerAdapter {
         TextView mealName = view.findViewById(R.id.mealName);
 
         String strMealThumb = mMeals.get(position).getStrMealThumb();
-        Picasso.get().load(strMealThumb).into(mealThumb);
 
         String strMealName = mMeals.get(position).getStrMeal();
         mealName.setText(strMealName);
 
         view.setOnClickListener(v -> clickListener.onClick(v, position));
-
         container.addView(view, 0);
         return view;
     }

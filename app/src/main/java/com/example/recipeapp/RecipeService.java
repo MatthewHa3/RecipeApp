@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface RecipeService {
-    @GET("latest.php")
+    @GET("search.php?f=a")
     Call<MealLoreResponse> getMeals();
 
     @GET("categories.php")

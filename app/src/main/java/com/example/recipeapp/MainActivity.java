@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import com.example.recipeapp.Entities.Categories;
 import com.example.recipeapp.Entities.CategoryLoreResponse;
 import com.example.recipeapp.Entities.MealLoreResponse;
