@@ -6,22 +6,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.recipeapp.Entities.Categories;
-import com.example.recipeapp.Entities.MealLoreResponse;
-import com.example.recipeapp.Entities.Meals;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CategoryActivity extends AppCompatActivity {
     private String TAG = "CategoryActivity";
@@ -33,10 +24,14 @@ public class CategoryActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private VpcAdapter mAdapter;
 
+    //Initialise activity
+    //Defines UI by binding activity_category and links widgets in UI to variables
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        //Link XML elements to their java variables
+        //execute API function
         mTabLayout = findViewById(R.id.tabLayout);
         mToolBar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.viewPager);
@@ -47,6 +42,8 @@ public class CategoryActivity extends AppCompatActivity {
         initIntent();
     }
 
+    //Get activity title from intent
+    //Set activity view
     private void initIntent() {
         Intent intent = getIntent();
         List<Categories> categories = (List<Categories>) intent.getSerializableExtra(EXTRA_CATEGORY);
@@ -59,12 +56,17 @@ public class CategoryActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    //Toobar to set as the activity's action bar or null to clear it
     private void initActionBar() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
     }
 
+    //When the user selects an item from the options menu, the system calls this method
+    //Method passes the Menuitem selected
+    //Identified by calling getItemId(), which returns the unique ID for the menu item
+    //When succesfully handled a menu ite, return true
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

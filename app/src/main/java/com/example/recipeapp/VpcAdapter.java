@@ -11,6 +11,7 @@ import com.example.recipeapp.Entities.Categories;
 
 import java.util.List;
 
+//Implementation of PagerAdapter that requires each page as a Fragment that is kept in the fragment manager
 public class VpcAdapter extends FragmentPagerAdapter {
 
     private List<Categories> categories;
@@ -20,6 +21,7 @@ public class VpcAdapter extends FragmentPagerAdapter {
         this.categories = categories;
     }
 
+    //Return the Fragment associated with a specified positi ive coon
     @Override
     public Fragment getItem(int i) {
         CategoryFragment fragment = new CategoryFragment();
@@ -31,6 +33,7 @@ public class VpcAdapter extends FragmentPagerAdapter {
         return fragment;
     }
 
+    // Return the size of meal data set so that it knows how many list item views it will need to recycle
     @Override
     public int getCount() {
         return categories.size();

@@ -15,4 +15,7 @@ public interface RecipeService {
 
     @GET("filter.php")
     Call<MealLoreResponse> getMealByCategory(@Query("c") String category);
+
+    @GET("search.php")
+    Call<MealLoreResponse> getMealByName(@Query("s") String mealName);
 }

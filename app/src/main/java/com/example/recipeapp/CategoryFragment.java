@@ -1,8 +1,7 @@
 package com.example.recipeapp;
 
-import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,14 +26,6 @@ import com.example.recipeapp.Entities.Meals;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 
 public class CategoryFragment extends Fragment implements CategoryView {
 
@@ -43,13 +34,10 @@ public class CategoryFragment extends Fragment implements CategoryView {
     private CategoryView view;
     private MealByCategoryAdapter mAdapter = new MealByCategoryAdapter(getActivity(), new ArrayList<>());
 
-    /*@Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null){
-            getMealByCategory(getArguments().getString("EXTRA_DATA_NAME"));
-        }
-    }*/
+    //Have fragment instantiated to its user interface view
+    //LayoutInflater used to inflate any views in fragment
+    //ViewGroup if not null is the parent view that the fragment's UI is attached to
+    //SavedInstance if not null is reconstructed from a previous saved state
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
@@ -59,6 +47,10 @@ public class CategoryFragment extends Fragment implements CategoryView {
         return view;
     }
 
+    //Called after onCreate has returned but before an saved state has been restored in to the view
+    //The fragment's view is not attached to tis parent
+    //SavedInstance if not null is reconstructed from a previous state. This may be Null
+    //Glide is an image loader library to display the category images
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -71,11 +63,14 @@ public class CategoryFragment extends Fragment implements CategoryView {
         }
     }
 
+
+    //If view not loaded, show progress bar
     @Override
     public void showLoading() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    //Ends progress bar by making it invisible
     @Override
     public void hideLoading() {
         mProgressBar.setVisibility(View.GONE);
@@ -89,11 +84,11 @@ public class CategoryFragment extends Fragment implements CategoryView {
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnItemClickListener(((view, position) -> {
-            Toast.makeText(getActivity(), "meal: " + meals.get(position).getStrMeal(), Toast.LENGTH_SHORT).show();
+            TextView mealName = view.findViewById(R.id.mealName);
+            Intent intent = new Intent(getActivity(), RecipeActivity.class);
+            intent.putExtra(RecipeActivity.EXTRA_RECIPE, mealName.getText().toString());
+            startActivity(intent);
         }));
     }
-
-
-
 
 }

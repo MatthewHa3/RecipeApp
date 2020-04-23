@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+
 import com.example.recipeapp.Entities.Categories;
 import com.example.recipeapp.Entities.CategoryLoreResponse;
 import com.example.recipeapp.Entities.MealLoreResponse;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
         RecyclerView recyclerViewCategory = findViewById(R.id.rvCategory);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerViewCategory.setLayoutManager(mLayoutManager);
+        recyclerViewCategory.setHasFixedSize(true);;
         recyclerViewCategory.setAdapter(categoryAdapter);
         Log.d(TAG, "rc set");
         showLoading();
@@ -81,8 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
             }
         });
-        /*new GetMealTask().execute();
-        new GetCategoryTask().execute();*/
+
     }
 
     public MainActivity(){
@@ -114,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements MainView{
         ViewPager viewPagerMeal = findViewById(R.id.vpHeader);
         viewPagerMeal.setAdapter(headerAdapter);
         headerAdapter.setMeals(meal);
+        headerAdapter.setOnItemClickListener((view, position) -> {
+            TextView mealName = view.findViewById(R.id.mealName);
+            Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
+            intent.putExtra(RecipeActivity.EXTRA_RECIPE, mealName.getText().toString());
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -125,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
             Log.w("Category:", categories.getStrCategory());
         }
         categoryAdapter.setCategories(category);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerViewCategory.setLayoutManager(layoutManager);
         recyclerViewCategory.setNestedScrollingEnabled(true);
         categoryAdapter.setOnItemClickListener((view1, position) -> {
@@ -136,68 +144,4 @@ public class MainActivity extends AppCompatActivity implements MainView{
             startActivity(intent);
         });
     }
-
-
-    /*private class GetMealTask extends AsyncTask<Void, Void, List<Meals>> {
-        @Override
-        protected List<Meals> doInBackground(Void... voids) {
-            try {
-                Log.d(TAG, "onSuccess: SUCCESS");
-                //Create Retrofit instance and parse the retrieved Json using Gson deserialiser
-                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(GsonConverterFactory.create()).build();
-                //Get Service and call object for the request
-                RecipeService service = retrofit.create(RecipeService.class);
-                Call<MealLoreResponse> mealsCall = service.getMeals();
-
-                //Execute network request
-                Response<MealLoreResponse> mealResponse = mealsCall.execute();
-                List<Meals> meals = mealResponse.body().getMeals();
-                runOnUiThread(new Runnable(){
-                    @Override
-                    public void run(){
-                    setMeal(meals);
-                    }});
-                return meals;
-            } catch (IOException e) {
-                Log.d(TAG, "onFailue: FAILURE");
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Meals> meals) { headerAdapter.setMeals(meals); }
-    }
-
-    private class GetCategoryTask extends AsyncTask<Void, Void, List<Categories>> {
-        @Override
-        protected List<Categories> doInBackground(Void... voids) {
-            try {
-                Log.d(TAG, "onSuccess: SUCCESS");
-                //Create Retrofit instance and parse the retrieved Json using Gson deserialiser
-                Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(GsonConverterFactory.create()).build();
-                //Get Service and call object for the request
-                RecipeService service = retrofit.create(RecipeService.class);
-                Call<CategoryLoreResponse> categoriesCall = service.getCategories();
-
-                //Execute network request
-                Response<CategoryLoreResponse> categoriesResponse = categoriesCall.execute();
-                List<Categories> categories = categoriesResponse.body().getCategories();
-                runOnUiThread(new Runnable(){
-                    @Override
-                    public void run(){
-                        setCategory(categories);
-                    }});
-                return categories;
-            } catch (IOException e) {
-                Log.d(TAG, "onFailue: FAILURE");
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Categories> categories) { categoryAdapter.setCategories(categories); }
-
-    }*/
 }

@@ -16,18 +16,21 @@ import com.bumptech.glide.Glide;
 import com.example.recipeapp.Entities.Categories;
 import java.util.List;
 
-
+//Creating adapter to connect data with View items. Adapter uses ViewHOlder that describes a View item and its position
+//implements onClickListener
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder> {
 
     private List<Categories> mCategories;
     private Context context;
     private static ClickListener clickListener;
 
+    //Custom adapter for Category List
     public CategoryAdapter(List<Categories> categories, Context context) {
         this.mCategories = categories;
         this.context = context;
     }
 
+    // Return the size of category data set so that it knows how many list item views it will need to recycle
     @Override
     public int getItemCount() {
         return mCategories.size();
@@ -49,6 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         }
     }
 
+    //method inflates thh item layout, returns a ViewHolder with the layout and the adapter
     @NonNull
     @Override
     public CategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -56,6 +60,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         return new RecyclerViewHolder(view);
     }
 
+    // Method connects category data to the view holder
+    // Called by RecyclerView to display data at the specified position
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder viewHolder, int i) {
         Categories category = mCategories.get(i);
@@ -63,12 +69,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         viewHolder.mName.setText(category.getStrCategory());
     }
 
-
+    //Callback method to be invoked when an item in this AdapterView has been clicked
     public void setOnItemClickListener(ClickListener clickListener) {
         CategoryAdapter.clickListener = clickListener;
     }
 
-
+    //Interface for a callback to be invoked when a view is clicked
     public interface ClickListener {
         void onClick(View view, int position);
     }
