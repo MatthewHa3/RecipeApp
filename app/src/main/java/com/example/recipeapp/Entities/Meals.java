@@ -4,9 +4,10 @@ package com.example.recipeapp.Entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
 
-    public class Meals {
+public class Meals implements Serializable {
         @SerializedName("idMeal")
         @Expose
         private String idMeal;

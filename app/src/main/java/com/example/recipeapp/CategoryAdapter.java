@@ -5,16 +5,15 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.recipeapp.Entities.Categories;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 
@@ -29,25 +28,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         this.context = context;
     }
 
-    @NonNull
-    @Override
-    public CategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.category,
-                viewGroup, false);
-        return new RecyclerViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder viewHolder, int i) {
-
-        String strCategoryThum = mCategories.get(i).getStrCategoryThumb();
-        Picasso.get().load(strCategoryThum).placeholder(R.drawable.ic_launcher_foreground).into(viewHolder.mThumb);
-
-        String strCategoryName = mCategories.get(i).getStrCategory();
-        viewHolder.mName.setText(strCategoryName);
-    }
-
-
     @Override
     public int getItemCount() {
         return mCategories.size();
@@ -60,12 +40,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
             super(itemView);
             mThumb = itemView.findViewById(R.id.categoryThumb);
             mName = itemView.findViewById(R.id.categoryName);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             clickListener.onClick(v, getAdapterPosition());
         }
+    }
+
+    @NonNull
+    @Override
+    public CategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.category, parent, false);
+        return new RecyclerViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder viewHolder, int i) {
+        Categories category = mCategories.get(i);
+        Glide.with(viewHolder.itemView).load(category.getStrCategoryThumb()).fitCenter().into(viewHolder.mThumb);
+        viewHolder.mName.setText(category.getStrCategory());
     }
 
 
@@ -79,7 +74,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
     }
 
     public void setCategories(List<Categories> categories){
-        mCategories.clear();
+        for (Categories category : categories){
+            Log.w("CategoryAdapter:", category.getStrCategory());
+        }
         mCategories.addAll(categories);
         notifyDataSetChanged();
     }

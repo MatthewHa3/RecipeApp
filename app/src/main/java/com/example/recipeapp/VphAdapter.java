@@ -44,10 +44,12 @@ public class VphAdapter extends PagerAdapter {
                 false
         );
 
+
         ImageView mealThumb = view.findViewById(R.id.mealThumb);
         TextView mealName = view.findViewById(R.id.mealName);
 
         String strMealThumb = mMeals.get(position).getStrMealThumb();
+        Picasso.get().load(strMealThumb).into(mealThumb);
 
         String strMealName = mMeals.get(position).getStrMeal();
         mealName.setText(strMealName);
@@ -67,7 +69,6 @@ public class VphAdapter extends PagerAdapter {
     }
 
     public void setMeals(List<Meals> meals){
-        mMeals.clear();
         mMeals.addAll(meals);
         notifyDataSetChanged();
     }
