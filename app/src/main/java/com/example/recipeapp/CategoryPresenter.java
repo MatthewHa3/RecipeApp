@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class CategoryPresenter {
+    //Declare variables for XML elements
     private CategoryView view;
 
     public CategoryPresenter(CategoryView view) {
@@ -27,6 +28,7 @@ public class CategoryPresenter {
         RecipeService service = retrofit.create(RecipeService.class);
         Call<MealLoreResponse> mealsCall = service.getMealByCategory(category);
         mealsCall.enqueue(new Callback<MealLoreResponse>() {
+
             @Override
             public void onResponse(Call<MealLoreResponse> call, Response<MealLoreResponse> response) {
                 Log.d(TAG, "onSuccess: SUCCESS");

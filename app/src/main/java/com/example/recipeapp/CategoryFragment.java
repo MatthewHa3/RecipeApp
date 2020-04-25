@@ -28,7 +28,7 @@ import java.util.List;
 
 
 public class CategoryFragment extends Fragment implements CategoryView {
-
+    //Declare variables for XML elements
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private MealByCategoryAdapter mAdapter = new MealByCategoryAdapter(getActivity(), new ArrayList<>());
@@ -75,6 +75,8 @@ public class CategoryFragment extends Fragment implements CategoryView {
         mProgressBar.setVisibility(View.GONE);
     }
 
+    //adapter object used to display the meals data in CategoryFragment
+    //intent used to launch RecipeActivity
     @Override
     public void setMeals(List<Meals> meals) {
         mAdapter = new MealByCategoryAdapter(getActivity(), meals);

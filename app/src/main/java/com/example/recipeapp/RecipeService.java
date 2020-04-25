@@ -6,6 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+//abstract class used to group methods of RecipeService
+//Methods will be implemented in RecipeActivity
 public interface RecipeService {
     @GET("search.php?f=a")
     Call<MealLoreResponse> getMeals();

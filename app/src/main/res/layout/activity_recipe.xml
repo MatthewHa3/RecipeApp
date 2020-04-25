@@ -50,10 +50,11 @@
                 android:layout_marginLeft="115dp"
                 android:layout_marginTop="8dp"
                 android:shadowColor="#000000"
-                android:textColor="#FFFFFF"
+                android:textColor="#FFEB3B"
                 android:textColorHighlight="#098314"
-                android:textColorHint="#098314"
-                android:textSize="18sp" />
+                android:textColorHint="#FFEB3B"
+                android:textColorLink="#FFEB3B"
+                android:textSize="20sp" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

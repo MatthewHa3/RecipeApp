@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
+    //Declare variables for XML elements
     private String TAG = "CategoryActivity";
     private CategoryView view;
     public static final String EXTRA_CATEGORY = "category";
@@ -43,7 +44,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     //Get activity title from intent
-    //Set activity view
+    //Set activity view by linking UI variables
     private void initIntent() {
         Intent intent = getIntent();
         List<Categories> categories = (List<Categories>) intent.getSerializableExtra(EXTRA_CATEGORY);
@@ -56,7 +57,7 @@ public class CategoryActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    //Toobar to set as the activity's action bar or null to clear it
+    //Toolbar to set as the activity's action bar or null to clear it
     private void initActionBar() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -66,7 +67,7 @@ public class CategoryActivity extends AppCompatActivity {
     //When the user selects an item from the options menu, the system calls this method
     //Method passes the Menuitem selected
     //Identified by calling getItemId(), which returns the unique ID for the menu item
-    //When succesfully handled a menu ite, return true
+    //When successfully handled a menu ite, return true
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

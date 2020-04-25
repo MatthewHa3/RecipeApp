@@ -88,9 +88,9 @@
                 android:id="@+id/profileButton"
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="14dp"
-                android:background="#DFE02525"
+                android:layout_marginTop="10dp"
+                android:background="#16AEF3"
                 android:text="Profile"
                 android:textColor="#F5EAEA" />
 

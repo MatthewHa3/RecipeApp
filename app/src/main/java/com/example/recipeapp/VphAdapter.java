@@ -78,7 +78,7 @@ public class VphAdapter extends PagerAdapter {
         void onClick(View v, int position);
     }
 
-    //Notifies that the data has been changed and any View reflectring the data set should refresh
+    //Notifies that the data has been changed and any View reflecting the data set should refresh
     public void setMeals(List<Meals> meals){
         mMeals.addAll(meals);
         notifyDataSetChanged();

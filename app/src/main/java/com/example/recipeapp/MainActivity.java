@@ -27,12 +27,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class MainActivity extends AppCompatActivity{
+    //Declare variables for XML elements
     private String TAG = "MainActivity";
     private VphAdapter headerAdapter;
     private CategoryAdapter categoryAdapter;
     private Button mButton;
 
+    //Initialise Profile Activity
+    //Call activity_profile to define UI
+    //Retrieve widgets in activity_profile so program can interact
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +97,8 @@ public class MainActivity extends AppCompatActivity{
     public MainActivity(){
     }
 
+    //adapter object used to display the meals data in MainActivity
+    //intent used to launch RecipeActivity
     public void setMeal(List<Meals> meal) {
         headerAdapter = new VphAdapter(meal, this);
         ViewPager viewPagerMeal = findViewById(R.id.vpHeader);
@@ -105,6 +112,8 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    //adapter object used to display the category data in MainActivity
+    //Intent used to launch CategoryActivity
     public void setCategory(List<Categories> category) {
         categoryAdapter = new CategoryAdapter(category, this);
         RecyclerView recyclerViewCategory = findViewById(R.id.rvCategory);

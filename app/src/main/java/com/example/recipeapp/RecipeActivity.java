@@ -26,6 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeActivity extends AppCompatActivity implements RecipeView{
+    //Declare variables for XML elements
     private String TAG = "RecipeActivity";
     public static final String EXTRA_RECIPE = "recipe";
     private CollapsingToolbarLayout mCTL;
@@ -35,6 +36,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
     private Button mButton;
 
 
+    //Initialise Recipe Activity
+    //Call activity_profile to define UI
+    //Retrieve widgets in activity_recipe so program can interact
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
         showLoading();
         SharedPreferences sharedPoints = getSharedPreferences("POINTS", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPoints.edit();
+        //System executes the code according to code after pressing a button
+        //If a user clicks "complete" on a recipe with a specific category, add the 100 points
+        //Display completed text to notify user
         mButton.setOnClickListener(v -> {
             if (mCategory.getText().toString().equals("Beef") || mCategory.getText().toString().equals("Chicken") || mCategory.getText().toString().equals("Dessert")
                     || mCategory.getText().toString().equals("Lamb") || mCategory.getText().toString().equals("Pork") || mCategory.getText().toString().equals("Seafood")
@@ -100,16 +107,20 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
             }
         });
     }
+
+    //If view not loaded, show progress bar
     @Override
     public void showLoading(){
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    //Ends progress bar by making it invisible
     @Override
     public void hideLoading(){
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
+    //Set the title, colour, category, country and instructions for Recipe page
     @Override
     public void setMeal(Meals meal){
         mCTL.setTitle(meal.getStrMeal());
@@ -242,13 +253,14 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
             mMeasures.append("\n : " + meal.getStrMeasure20());
         }
 
-
+        //System will open up the link once youtube button has been clicked
         mYoutube.setOnClickListener(v -> {
             Intent intentYoutube = new Intent(Intent.ACTION_VIEW);
             intentYoutube.setData(Uri.parse(meal.getStrYoutube()));
             startActivity(intentYoutube);
         });
 
+        //System opens source once the source button has been clicked
         mSource.setOnClickListener(v -> {
             Intent intentSource = new Intent(Intent.ACTION_VIEW);
             intentSource.setData(Uri.parse(meal.getStrSource()));
@@ -280,6 +292,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
     }
 
 
+    //This hook is called whenever an item in our options menu is selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

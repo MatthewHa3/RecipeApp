@@ -8,9 +8,13 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
+    //Declare variables for XML elements
     private String TAG = "ProfileActivity";
     private TextView points, level, rank;
 
+    //Initialise Profile Activity
+    //Call activity_profile to define UI
+    //Retrieve widgets in activity_profile so program can interact
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
         rank = findViewById(R.id.tvRank);
     }
 
+    //Called for activity to start interacting with user
+    //Defining ranks through levelNum
     @Override
     protected void onResume(){
         super.onResume();
