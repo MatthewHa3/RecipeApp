@@ -62,7 +62,6 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter<MealByCategoryAd
     @Override
     public void onBindViewHolder(@NonNull MealByCategoryAdapter.RecyclerViewHolder viewHolder, int i) {
         Meals meal = mMeals.get(i);
-        Log.d(TAG, meal.getStrMealThumb());
         Glide.with(viewHolder.itemView).load(meal.getStrMealThumb()).fitCenter().into(viewHolder.mThumb);
         viewHolder.mName.setText(meal.getStrMeal());
     }

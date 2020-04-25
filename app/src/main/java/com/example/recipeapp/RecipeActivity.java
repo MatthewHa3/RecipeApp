@@ -1,29 +1,23 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.Entities.MealLoreResponse;
 import com.example.recipeapp.Entities.Meals;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,17 +28,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipeActivity extends AppCompatActivity implements RecipeView{
     private String TAG = "RecipeActivity";
     public static final String EXTRA_RECIPE = "recipe";
-    private Toolbar mToolbar;
-    private AppBarLayout mAppBarLayout;
     private CollapsingToolbarLayout mCTL;
     private ImageView mThumb;
-    private TextView mCategory, mCountry, mInstructions, mIngredients, mMeasures, mYoutube, mSource;
+    private TextView mCategory, mCountry, mInstructions, mIngredients, mMeasures, mYoutube, mSource, mComplete;
     private ProgressBar mProgressBar;
+    private Button mButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        mCTL = findViewById(R.id.collapsing_toolbar);
         mThumb = findViewById(R.id.mealThumb);
         mCategory = findViewById(R.id.tvCategory);
         mCountry = findViewById(R.id.tvCountry);
@@ -54,13 +49,57 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
         mProgressBar = findViewById(R.id.progressBar);
         mYoutube = findViewById(R.id.youtube);
         mSource = findViewById(R.id.source);
+        mButton = findViewById(R.id.completeButton);
+        mComplete = findViewById(R.id.tvComplete);
         Intent intent = getIntent();
         String mealName = intent.getStringExtra(EXTRA_RECIPE);
         getMealById(mealName);
         showLoading();
-
+        SharedPreferences sharedPoints = getSharedPreferences("POINTS", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPoints.edit();
+        mButton.setOnClickListener(v -> {
+            if (mCategory.getText().toString().equals("Beef") || mCategory.getText().toString().equals("Chicken") || mCategory.getText().toString().equals("Dessert")
+                    || mCategory.getText().toString().equals("Lamb") || mCategory.getText().toString().equals("Pork") || mCategory.getText().toString().equals("Seafood")
+                    || mCategory.getText().toString().equals("Vegan") || mCategory.getText().toString().equals("Goat")){
+                int currentPoints  = sharedPoints.getInt("points", 0);
+                myEdit.putInt("points", currentPoints + 100);
+                myEdit.commit();
+                int a = sharedPoints.getInt("points", 0);
+                Log.d(TAG, String.valueOf(a));
+                mComplete.setText("Successfully completed recipe");
+            } else if (mCategory.getText().toString().equals("Vegetarian")){
+                int currentPoints  = sharedPoints.getInt("points", 0);
+                myEdit.putInt("points", currentPoints + 80);
+                myEdit.commit();
+                int a = sharedPoints.getInt("points", 0);
+                Log.d(TAG, String.valueOf(a));
+                mComplete.setText("Successfully completed recipe");
+            } else if (mCategory.getText().toString().equals("Miscellaneous") || mCategory.getText().toString().equals("Pasta")){
+                int currentPoints  = sharedPoints.getInt("points", 0);
+                myEdit.putInt("points", currentPoints + 60);
+                myEdit.commit();
+                int a = sharedPoints.getInt("points", 0);
+                Log.d(TAG, String.valueOf(a));
+                mComplete.setText("Successfully completed recipe");
+            } else if (mCategory.getText().toString().equals("Starter") || mCategory.getText().toString().equals("Breakfast")){
+                int currentPoints  = sharedPoints.getInt("points", 0);
+                myEdit.putInt("points", currentPoints + 50);
+                myEdit.commit();
+                int a = sharedPoints.getInt("points", 0);
+                Log.d(TAG, String.valueOf(a));
+                mComplete.setText("Successfully completed recipe");
+            } else if (mCategory.getText().toString().equals("Side")){
+                int currentPoints  = sharedPoints.getInt("points", 0);
+                myEdit.putInt("points", currentPoints + 40);
+                myEdit.commit();
+                int a = sharedPoints.getInt("points", 0);
+                Log.d(TAG, String.valueOf(a));
+                mComplete.setText("Successfully completed recipe");
+            } else {
+                mComplete.setText("Fail");
+            }
+        });
     }
-
     @Override
     public void showLoading(){
         mProgressBar.setVisibility(View.VISIBLE);
@@ -73,7 +112,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView{
 
     @Override
     public void setMeal(Meals meal){
-
+        mCTL.setTitle(meal.getStrMeal());
+        mCTL.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
+        mCTL.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
         Glide.with(mThumb).load(meal.getStrMealThumb()).fitCenter().into(mThumb);
         mCategory.setText(meal.getStrCategory());
         mCountry.setText(meal.getStrArea());

@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.recipeapp.Entities.Categories;
@@ -27,16 +27,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements MainView{
+public class MainActivity extends AppCompatActivity{
     private String TAG = "MainActivity";
-    private MainView view;
     private VphAdapter headerAdapter;
     private CategoryAdapter categoryAdapter;
+    private Button mButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mButton = findViewById(R.id.profileButton);
         headerAdapter = new VphAdapter(new ArrayList<>(), this);
         ViewPager viewPagerMeal = findViewById(R.id.vpHeader);
         viewPagerMeal.setAdapter(headerAdapter);
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
         recyclerViewCategory.setHasFixedSize(true);;
         recyclerViewCategory.setAdapter(categoryAdapter);
         Log.d(TAG, "rc set");
-        showLoading();
         //Create Retrofit instance and parse the retrieved Json using Gson deserialiser
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(GsonConverterFactory.create()).build();
         //Get Service and call object for the request
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
             public void onResponse(Call<MealLoreResponse> call, Response<MealLoreResponse> response) {
                 Log.d(TAG, "onSuccess: SUCCESS");
                 List<Meals> meals = response.body().getMeals();
-                hideLoading();
                 setMeal(meals);
             }
 
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
             public void onResponse(Call<CategoryLoreResponse> call, Response<CategoryLoreResponse> response) {
                 Log.d(TAG, "onSuccess: SUCCESS");
                 List<Categories> categories = response.body().getCategories();
-                hideLoading();
                 setCategory(categories);
             }
 
@@ -84,34 +82,17 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
             }
         });
+        mButton.setOnClickListener((view) -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+        });
 
     }
 
     public MainActivity(){
     }
 
-    public MainActivity(MainView view) {
-        super();
-        this.view = view;
-    }
-
-    @Override
-    public void showLoading() {
-        findViewById(R.id.shimmerMeal).setVisibility(View.VISIBLE);
-        findViewById(R.id.shimmerCategory).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        findViewById(R.id.shimmerMeal).setVisibility(View.GONE);
-        findViewById(R.id.shimmerCategory).setVisibility(View.GONE);
-    }
-
-    @Override
     public void setMeal(List<Meals> meal) {
-        for (Meals mealresult : meal){
-            Log.w("Meal name: ", mealresult.getStrMeal());
-        }
         headerAdapter = new VphAdapter(meal, this);
         ViewPager viewPagerMeal = findViewById(R.id.vpHeader);
         viewPagerMeal.setAdapter(headerAdapter);
@@ -124,14 +105,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
         });
     }
 
-    @Override
     public void setCategory(List<Categories> category) {
         categoryAdapter = new CategoryAdapter(category, this);
         RecyclerView recyclerViewCategory = findViewById(R.id.rvCategory);
         recyclerViewCategory.setAdapter(categoryAdapter);
-        for (Categories categories : category){
-            Log.w("Category:", categories.getStrCategory());
-        }
         categoryAdapter.setCategories(category);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerViewCategory.setLayoutManager(layoutManager);

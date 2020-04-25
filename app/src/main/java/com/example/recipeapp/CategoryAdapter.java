@@ -80,9 +80,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
     }
 
     public void setCategories(List<Categories> categories){
-        for (Categories category : categories){
-            Log.w("CategoryAdapter:", category.getStrCategory());
-        }
         mCategories.addAll(categories);
         notifyDataSetChanged();
     }

@@ -31,7 +31,6 @@ public class CategoryFragment extends Fragment implements CategoryView {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private CategoryView view;
     private MealByCategoryAdapter mAdapter = new MealByCategoryAdapter(getActivity(), new ArrayList<>());
 
     //Have fragment instantiated to its user interface view
